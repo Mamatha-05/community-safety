@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USER-Neighborhood Watch Platform</title>
+</head>
+<body>
+    {% if user.is_staff %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to right, #9d50bb, #6e48aa);
+            font-family: "Poppins", sans-serif;
+        }
+        .navbar {
+            width: 100%;
+            background: #6e48aa;
+            padding: 15px 20px;
+            display: flex;
+            justify-content:space-between;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .navbar .logo {
+            color: #fff;
+            font-size: 24px;
+            font-weight: 600;
+            text-transform: uppercase;
+            align-items: center;
+        }
+        .navbar .nav-links {
+            display:flex;
+            
+        }
+        .navbar .nav-links a {
+            color: #fff;
+            margin-left: 20px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            cursor:pointer;
+        }
+        h2 {
+            margin-bottom: 20px;
+            font-family: "Poppins", sans-serif;
+        }
+        .inputGroup {
+            margin-bottom: 15px;
+        }
+        .inputGroup label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .inputGroup input,
+        .inputGroup textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .inputGroup textarea {
+            resize: vertical;
+        }
+        .submitForm {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            background: #6e48aa;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .submitForm:hover {
+            background: #9d50bb;
+        }
+        .report {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .report:last-child {
+            border-bottom: none;
+        }
+        .btn:hover {
+            color:blue;
+            cursor: pointer;
+        }
+    </style>
+    <div class="navbar">
+        <div class="logo">Neighborhood Watch Platform</div>
+        <div class="nav-links">
+            <div class="btn">
+            <a href="{% url 'home' %}">Home</a>
+            </div><br>
+            <div class="btn">
+                <a href="{% url 'Add_Instruction' %}">New Instruction</a>
+                </div><br>
+            <div class="btn">
+            <a href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Report Details</h2>
+        <div id="reportDetails">
+            {% if Reports %}
+            {% for Report in Reports %}
+            <div class="report">
+                <strong>{{ forloop.counter }} | {{Report.user}}</strong> {{Report.Incident}} | {{Report.Location}} | {{Report.Description}} | {{Report.Date}}
+                <a href="{% url 'Delete_report' pk=Report.id %}">Delete</a>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="report">
+                <strong>No Reports</strong> 
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f0f0f0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header .container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+header h1 {
+    font-size: 2rem;
+}
+
+main {
+    padding: 20px;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form select,
+form input[type="text"],
+form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form textarea {
+    height: 100px;
+}
+
+form button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+.alert-list {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.alert {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.community-connect {
+    text-align: center;
+}
+
+.community-connect button {
+    padding: 12px 24px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.community-connect button:hover {
+    background-color: #45a049;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+   </style>
+    <header>
+        <div class="container">
+            <h1>Neighborhood Watch Platform</h1>
+        </div>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </header>
+    <main>
+        <section class="report-incident">
+            <div class="container">
+                <h2>Report Suspicious Activity</h2>
+                <form action="{% url 'Report' %}" method="post">
+                    {% csrf_token %}
+                    <label for="incident-type">Incident Type:</label>
+                    <select id="incident-type" name="incident_type" required>
+                        <option value="suspicious">Suspicious Activity</option>
+                        <option value="vandalism">Vandalism</option>
+                        <option value="theft">Theft</option>
+                        <option value="assault">Assault</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="location" required>
+                    
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="4" required></textarea>
+                    
+                    <button type="submit">Submit Report</button>
+                </form>
+            </div>
+        </section>
+        <section class="safety-alerts">
+            <div class="container">
+                <h2>Safety Alerts</h2>
+                <div class="alert-list">
+                    <!-- Safety alerts will be dynamically generated from the database -->
+                    {% if alerts %}
+                    {% for alert in alerts %}
+                    <div class="alert">
+                        <h3>Alert : {{alert.Title}}</h3>
+                        <p>Instruction Passed :{{alert.Instruction_pass_date}}</p>
+                        <p>Instruction :{{alert.Details}}</p>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p>No alert messages</p>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </section>
+
+        <section class="community-connect">
+            <div class="container">
+                <h2>Connect with Neighbors</h2>
+                <p>Join discussions, share safety tips, and stay informed:</p>
+                <button>Join Community Forum</button>
+            </div>
+        </section>
+    </main>
+{% endif %}
+</body>
+</html>

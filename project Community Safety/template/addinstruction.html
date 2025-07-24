@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USER-Neighborhood Watch Platform</title>
+</head>
+<body>
+    {% if user.is_staff %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to right, #9d50bb, #6e48aa);
+            font-family: "Poppins", sans-serif;
+        }
+        .navbar {
+            width: 100%;
+            background: #6e48aa;
+            padding: 15px 20px;
+            display: flex;
+            justify-content:space-between;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .navbar .logo {
+            color: #fff;
+            font-size: 24px;
+            font-weight: 600;
+            text-transform: uppercase;
+            align-items: center;
+        }
+        .navbar .nav-links {
+            display:flex;
+            
+        }
+        .navbar .nav-links a {
+            color: #fff;
+            margin-left: 20px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            cursor:pointer;
+        }
+        h2 {
+            margin-bottom: 20px;
+            font-family: "Poppins", sans-serif;
+        }
+        .inputGroup {
+            margin-bottom: 15px;
+        }
+        .inputGroup label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .inputGroup input,
+        .inputGroup textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .inputGroup textarea {
+            resize: vertical;
+        }
+        .submitForm {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            background: #6e48aa;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .submitForm:hover {
+            background: #9d50bb;
+        }
+        .report {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .report:last-child {
+            border-bottom: none;
+        }
+        .btn:hover {
+            color:blue;
+            cursor: pointer;
+        }
+    </style>
+    <div class="navbar">
+        <div class="logo">Neighborhood Watch Platform</div>
+        <div class="nav-links">
+            <div class="btn">
+            <a href="{% url 'home' %}">Home</a>
+            </div><br>
+            <div class="btn">
+            <a href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+    </div>
+   
+    <div class="container">
+        <h2>Add Safety Instructions</h2>
+        <form action="{% url 'Instruction' %}" method='POST'>
+            {% csrf_token %}
+            <div class="inputGroup">
+                <label for="instructionTitle">Title</label>
+                <input type="text" id="instructionTitle" placeholder="Enter instruction title" name='title' required>
+            </div>
+            <div class="inputGroup">
+                <label for="instructionDetails">Details</label>
+                <textarea id="instructionDetails" rows="4" placeholder="Enter instruction details" name='detail' required></textarea>
+            </div>
+            <button class="submitForm" type="submit">Submit</button>
+        </form>
+    </div>
+    {% endif %}
+</body>
+</html>
